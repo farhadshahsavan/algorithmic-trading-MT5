@@ -110,7 +110,7 @@ bool Sell_position (double atr_value)
 //+------------------------------------------------------------------+
 double donchian_high (int period)
    {
-   int highest_bar = iHighest(NULL, NULL, MODE_HIGH, period, 1);
+   int highest_bar = iHighest(NULL, NULL, MODE_HIGH, period, 2);
    double dh = iHigh(NULL, NULL, highest_bar);
    return dh;
    }
@@ -120,7 +120,7 @@ double donchian_high (int period)
 //+------------------------------------------------------------------+
 double donchian_low (int period)
    {
-   int lowest_bar = iLowest(NULL, NULL, MODE_LOW, period, 1);
+   int lowest_bar = iLowest(NULL, NULL, MODE_LOW, period, 2);
    double dl = iLow(NULL, NULL, lowest_bar);
    return dl;
    }
@@ -330,23 +330,17 @@ void OnTick()
       //--- long setup: uptrend + upside breakout
       if ((trend == 1) && breakout_buy_detected(dh))
          {
-         if (last_signal_high != dh)
-            {
-            Buy_position(current_atr);
-            last_signal_high = dh;
-            last_trade_bar_index = actual_bars;
-            }
+         Buy_position(current_atr);
+         last_signal_high = dh;
+         last_trade_bar_index = actual_bars;
          }
 
       //--- short setup: downtrend + downside breakout
       if ((trend == -1) && breakout_sell_detected(dl))
          {
-         if (last_signal_low != dl)
-            {
-            Sell_position(current_atr);
-            last_signal_low = dl;
-            last_trade_bar_index = actual_bars;
-            }
+         Sell_position(current_atr);
+         last_signal_low = dl;
+         last_trade_bar_index = actual_bars;
          }
       }
   }
